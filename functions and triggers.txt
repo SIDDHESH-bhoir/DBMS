@@ -1,0 +1,146 @@
+EXP 9
+1) Program to implement factorial of a number using functions. 
+PROGRAM:
+DECLARE
+	num number;
+	factorial number;  
+    
+	FUNCTION fact(x number) RETURN number  
+	IS
+    	f number;
+	BEGIN
+    	IF x=0 THEN f := 1;
+    	ELSE f := x * fact(x-1);
+    	END IF;
+    	RETURN f;
+	END;
+    
+BEGIN
+   num:= &number;
+   factorial := fact(num);
+   dbms_output.put_line(' Factorial '|| num || ' is ' || factorial);
+END;
+/
+OUTPUT:
+Enter value for number: 12
+old  16:    num:= &number;
+new  16:    num:= 12;
+Factorial 12 is 479001600
+
+2) Program to write a function to concatenate the strings.
+PROGRAM:
+DECLARE
+	s1 varchar(10);
+s2 varchar(10);
+	string varchar(20);
+FUNCTION concat(s1 varchar, s2 varchar) return varchar
+IS
+BEGIN
+RETURN s1||s2;
+END; 
+BEGIN
+	s1:= &varchar;
+	s2:= &varchar;
+	string:= concat(s1, s2);
+dbms_output.put_line(' Concatenated String is ' || string);
+END;
+/
+OUTPUT:
+Enter value for varchar: 'hello'
+old  11: s1:= &varchar;
+new  11: s1:= 'hello';
+Enter value for varchar: 'world'
+old  12: s2:= &varchar;
+new  12: s2:= 'world';
+Concatenated String is helloworld
+
+3) Program to retrieve the name of the employee with ID=1
+PROGRAM
+drop table emp;
+create table emp(name varchar2(50), id number);
+insert into emp values('Sydnelle', 4);
+insert into emp values('Rishabh', 8);
+insert into emp values('Mandar', 2);
+insert into emp values('Bhushan', 10);
+
+CREATE OR REPLACE FUNCTION empname(eid number) 
+RETURN varchar2 IS 
+   ename varchar2(50); 
+BEGIN 
+   SELECT name into ename FROM emp where id=eid;
+    
+   RETURN ename; 
+END; 
+/
+
+DECLARE
+   n number;
+   c varchar2(50); 
+BEGIN 
+   n := &eid;
+   c := empname(n); 
+   dbms_output.put_line('Employee with eid ' || n || ' is ' || c); 
+END; 
+/
+OUTPUT:
+Enter value for eid: 8
+Employee with eid 8 is Rishabh
+
+
+4) 
+Program:
+SQL> CREATE OR REPLACE TRIGGER display_salary_changes
+  2  BEFORE DELETE OR INSERT OR UPDATE ON customer
+  3  FOR EACH ROW
+  4  WHEN (NEW.ID > 0)
+  5  DECLARE
+  6  sal_diff number;
+  7  BEGIN
+  8  sal_diff := :NEW.salary - :OLD.salary;
+  9  dbms_output.put_line('Old salary: ' || :OLD.salary);
+ 10  dbms_output.put_line('New salary: ' || :NEW.salary);
+ 11
+ 12  dbms_output.put_line('Salary difference: ' || sal_diff);
+ 13  END;
+ 14  /
+
+Output:
+Trigger created.
+
+SQL>
+
+5) Program:
+
+Output:
+
+6) Program:
+SQL> CREATE OR REPLACE TRIGGER emp_count
+  2  AFTER DELETE ON customer
+  3  FOR EACH ROW
+  4  DECLARE
+  5  n INTEGER;
+  6  BEGIN
+  7  SELECT COUNT(*) INTO n FROM customer;
+  8  DBMS_OUTPUT.PUT_LINE(' There are now &#39; || n || &#39; employees');
+  9  END;
+ 10
+ 11  /
+Output:
+Trigger created.
+
+7) In the customer table delete a row and display the current count of customers in the table.
+For Practicals Please implement the above triggers and record your output
+Program:
+SQL> CREATE OR REPLACE TRIGGER emp_count
+  2  AFTER DELETE ON customer
+  3  FOR EACH ROW
+  4  DECLARE
+  5  n INTEGER;
+  6  BEGIN
+  7  SELECT COUNT(*) INTO n FROM customer;
+  8  DBMS_OUTPUT.PUT_LINE(' There are now &#39; || n || &#39; employees');
+  9  END;
+ 10  /
+Output:
+Trigger created.
+

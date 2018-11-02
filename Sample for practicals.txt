@@ -1,0 +1,47 @@
+
+
+
+Sample for practicals 
+Q.1 Create a table STUDENT as below:
+(Name char(10),  StudId number, Branch char(6), Sem number ,Result number ,Dob date)
+
+Insert values as below:
+John	101	CMPN		4	65	03-Dec-88
+Bill	154	INFT		6	72	04-Nov-87
+Mary	162	CMPN		6	58	05-Jul-87
+David	183	EXTC		6	65	25-Oct-88
+Write queries to find:
+(i)	Names and IDs of those students who scored above 60.
+(ii)	List of branches to which students belong 
+(iii)	Names of all students except those to belong to branch CMPN
+(iv)	Sort students by their result. If they are same, then sort them further by their name 
+(v)	Display the student name who have an a (lowercase) in their names.
+
+Q.2 Write a PL/SQL block to calculate area of circle for the value of radius varying from 3 to 7. Store and the corresponding values of the calculated area in the table circle area
+ (radius, area).
+Q3. Draw the ERD for company database
+
+
+
+Q. 1 Create a table STAFF as below:
+Name char(10), EmpId number, Address varchar(10), Dept number, Doj date, Salary number
+Insert 6 rows as below:
+John	1	BOSTON	1	03-Dec-2008	18000
+Bill	2	CHILLE	3	04-Nov-2007	15000
+Mary	3	KENYA	1	05-Jul-2007	16000
+David	4	SYDNEY	3	04-Jun-2006	20000
+Nancy	5	BELGIUM	1	18-Mar-2008	13000
+Smith	6	DELHI		4	06-Nov-2007	16000
+Write queries to find
+(i)	List the number  of employees in each Dept
+(ii)	Average salary of those Depts having more than 2 employees 
+(iii)	The sum of salaries of employees drawing greater than or equal  to 16000 
+(iv)	Find out all the employees who have salary greater than at least one employee in the department 1.
+(v)	Create a view StaffView having employees who belong to department number 1 or 2
+
+
+Q. 2 Write a PL/SQL block that will control loop to assign integer to 100. Increment integer by 25 and exit when integer = 250. Print the value on the standard output.
+
+Q3. Employees work on multiple projects. They belong to different departments. Every department has a manager. Assume suitable data and draw diagram for the same. 
+
+

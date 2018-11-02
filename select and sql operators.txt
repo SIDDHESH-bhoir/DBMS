@@ -1,0 +1,419 @@
+
+create table employee(emp_id number(1), ename varchar2(20), salary number(10), age number(3), doj DATE);
+insert into employee values(1, 'Suraj', 50000, 27, '05-Apr-2012');
+insert into employee values(2, 'Bhaviya', 70000, 29, '03-Dec-2013');
+insert into employee values(3, 'Saijal', 90000, 30, '23-Jun-2014');
+insert into employee values(4, 'Ronak', 35000, 42, '22-Oct-2011');
+insert into employee values(5, 'Aniket', 60000, 52, '20-Feb-2011');
+
+1) Find all employee names that have salary greater than 50000.
+SQL> select * from employee where salary>50000
+  2  ;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+2	Bhaviya	70000	29	03-DEC-13
+3	Saijal	90000	30	23-JUN-14
+5	Aniket	60000	52	20-FEB-11
+
+2) Give 10% raise in salary of each employee
+update employee set salary=salary*1.1;
+
+5 rows updated.
+
+select * from employee;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	55000	27	05-APR-12
+2	Bhaviya	77000	29	03-DEC-13
+3	Saijal	99000	30	23-JUN-14
+4	Ronak	38500	42	22-OCT-11
+5	Aniket	66000	52	20-FEB-11
+
+
+3) Give the details of employee joined from 05-april-2012 to 23-june-2014.
+select * from employee where DOJ between '05-apr-2012' and '23-jun-2014';
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	55000	27	05-APR-12
+2	Bhaviya	77000	29	03-DEC-13
+3	Saijal	99000	30	23-JUN-14
+
+
+4) Find all employees who are having salary greater than 70000 and have joined after 3 dec 2013
+select * from employee where DOJ>'03-dec-2013' and salary>70000;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+3	Saijal	99000	30	23-JUN-14
+
+
+5) Find all employees with name starting with s.
+select * from employee where ename like 'S%';
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	55000	27	05-APR-12
+3	Saijal	99000	30	23-JUN-14
+
+6) Find all employees who have at least one ‘e’; in their names.
+select * from employee where ename like '%e%';
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+5	Aniket	66000	52	20-FEB-11
+
+
+7) Find all employees with age either 29 or 30.
+select * from employee where age in (29, 30);
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+2	Bhaviya	77000	29	03-DEC-13
+3	Saijal	99000	30	23-JUN-14
+
+
+8) Find all employees who have not joined on 05-april-2012.
+select * from employee where DOJ != '05-apr-2012';
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+2	Bhaviya	77000	29	03-DEC-13
+3	Saijal	99000	30	23-JUN-14
+4	Ronak	38500	42	22-OCT-11
+5	Aniket	66000	52	20-FEB-11
+
+
+9) Alter the table by adding new column as amount deducted from salary towards tax. Update
+the value of tax in the table as 20% of salary.
+alter table employee add tax number(10);
+
+Table altered.
+
+update employee set tax = salary*0.2;
+
+5 rows updated.
+
+select * from employee;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ	TAX
+1	Suraj	55000	27	05-APR-12	11000
+2	Bhaviya	77000	29	03-DEC-13	15400
+3	Saijal	99000	30	23-JUN-14	19800
+4	Ronak	38500	42	22-OCT-11	7700
+5	Aniket	66000	52	20-FEB-11	13200
+
+
+10) Calculate the net salary for each employee.
+select ename, salary-tax as NetSalary from employee;
+
+ENAME	NETSALARY
+Suraj	44000
+Bhaviya	61600
+Saijal	79200
+Ronak	30800
+Aniket	52800
+
+
+11) Find all employees whose age is greater than 25 and earns salary. (use exists clause)
+select *
+from employee
+where  age>25 and EXISTS (select salary from customer) ;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+2	Bhaviya	70000	29	03-DEC-13
+3	Saijal	90000	30	23-JUN-14
+
+12) Find all employee names whose age is from the list given ‘25, 30, 24, 29’.
+
+select * from employee where age in (25, 30, 24, 29);
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	50000	27	05-APR-12
+3	Saijal	90000	30	23-JUN-14
+
+
+13) Find all employee names who has not joined on these dates {22-oct-201, 20-feb-2011, 03-
+dec-2013}.
+select * from employee where doj not in ('22-oct-2011', '20-feb-2011', '03-dec-2013');
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	50000	27	05-APR-12
+3	Saijal	90000	30	23-JUN-14
+
+
+14)List all employees in descending order of their salary.
+
+select * from employee where doj not in ('22-oct-2011', '20-feb-2011', '03-dec-2013');
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	50000	27	05-APR-12
+3	Saijal	90000	30	23-JUN-14
+
+
+15)List all employees name in ascending order with joining date ’05-april-2012’ or after this
+date.
+select * from employee where doj >= '05-april-2012' order by doj;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	50000	27	05-APR-12
+2	Bhaviya	70000	29	03-DEC-13
+3	Saijal	90000	30	23-JUN-14
+
+
+16) List the employees whose age is not null.
+select * from employee where age is not null;
+
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	50000	27	05-APR-12
+2	Bhaviya	70000	29	03-DEC-13
+3	Saijal	90000	30	23-JUN-14
+4	Ronak	35000	42	22-OCT-11
+5	Aniket	60000	52	20-FEB-11
+
+
+17) List the employees whose age is greater than the age of all the employees having salary
+greater than 5000.
+select * from employee where age >=all(select age from employee where salary>5000);
+EMP_ID	ENAME	SALARY	AGE	DOJ	TAX
+5	Aniket	66000	52	20-FEB-11	13200
+
+
+
+
+5)b) 
+
+
+1)	
+create table Flight(F_id number(5),DoT date,DoI date,Time Timestamp,Pass_name varchar2(10),Source varchar2(10),Destination varchar2(10),Fare number(10));
+Table created.
+
+
+SQL> desc flight;
+ Name                                      	Null?    	Type
+ ----------------------------------------- -------- ----------------------------
+ F_ID                                      NOT NULL 	NUMBER(5)
+ DOT                                               	         	DATE
+ DOI                                                	         	DATE
+ TIME                                               	        	TIMESTAMP(6)
+ PASS_NAME                                          	VARCHAR2(10)
+ SOURCE                                                  	VARCHAR2(10)
+ DESTINATION                                           	VARCHAR2(10)
+ FARE                                                        	NUMBER(10)
+
+2)
+insert into flight values(0001,'07-MAY-2018','05-MAY-2018',Timestamp '2018-05-10 07:15:31.1234','ABC','Mumbai','Delhi',5000);
+insert into flight values(0002,'07-MAY-2011','05-MAY-2011',Timestamp '2011-05-10 07:15:31.1234','pass1','New York','America',10000);
+insert into flight values(0003,'08-MAY-2012','05-MAY-2012',Timestamp '2012-05-10 08:15:31.1234','pass2','Mumbai','Chandigarh',50000);
+insert into flight values(0004,'09-MAY-2013','05-MAY-2013',Timestamp '2013-05-10 09:15:31.1234','pass3','Pune','Delhi',3000);
+insert into flight values(0005,'10-MAY-2014','05-MAY-2014',Timestamp '2014-05-10 10:15:31.1234','pass4','Delhi','Santacruz', 9900);
+
+3) Display today’s date and time in the prompt.
+SQL> select localtimestamp from dual;
+
+
+LOCALTIMESTAMP
+10-SEP-18 01.45.29.526288 AM
+
+
+4)	Display the absolute value of -184.
+
+select abs(-184) from dual;
+ABS(-184)
+184
+
+
+5)	Select a value from the dual and for that value find its cube.
+select power(7,3) from dual;
+
+
+POWER(7,3)
+343
+
+
+
+
+
+
+6)Display the date (doI) 2 months after date of Issue of Ticket.
+
+select add_months(DoI,2) as Added_month from flight;
+
+ADDED_MONTH
+05-JUL-18
+05-JUL-11
+05-JUL-12
+05-JUL-13
+05-JUL-14
+
+
+7)	Display the last day of month of date of Travel.
+select last_day(DoT) from flight;
+LAST_DAY(DOT)
+31-MAY-18
+31-MAY-11
+31-MAY-12
+31-MAY-13
+31-MAY-14
+
+
+
+8)	Display the month between date of travel and date of Issue.
+SQL> select months_between(DoT,DoI) from flight;
+
+
+MONTHS_BETWEEN(DOT,DOI)
+.064516129032258064516129032258064516129
+.064516129032258064516129032258064516129
+.0967741935483870967741935483870967741935
+.1290322580645161290322580645161290322581
+.1612903225806451612903225806451612903226
+
+
+9)	Display the next occurrence of Monday from the day of Travel.
+SQL> select next_day(DoT,'Monday') from flight;
+
+
+NEXT_DAY(DOT,'MONDAY')
+14-MAY-18
+09-MAY-11
+14-MAY-12
+13-MAY-13
+12-MAY-14
+
+
+10)	Display the First letter of Pass_name into capitals.
+select upper(substr(Pass_name,1,1)) "Substring" from flight;
+
+Substring
+A
+P
+P
+P
+P
+
+
+11)	Display the Pass_name into upper case.
+select upper(pass_name) from flight;
+UPPER(PASS_NAME)
+ABC
+PASS1
+PASS2
+PASS3
+PASS4
+
+
+12)	Display the Destination & source name into Lower case.
+select lower(destination), lower(source) from flight;
+
+LOWER(DESTINATION)	LOWER(SOURCE)
+delhi	mumbai
+america	new york
+chandigarh	mumbai
+delhi	pune
+santacruz	delhi
+
+
+13)	Display the first 3 characters of the Destination place name.
+select substr(destination,1,3) from flight;
+
+SUBSTR(DESTINATION,1,3)
+Del
+Ame
+Cha
+Del
+San
+
+
+14)	Display the last 3 characters of the Destination place name.
+select substr(destination,length(destination)-2,length(destination))"Last 3" from flight;
+
+Last 3
+lhi
+ica
+arh
+lhi
+ruz
+
+
+
+15)	Display the pass name that begins with ‘m’ and replace with ‘B’.
+select replace(pass_name,'m','B') from flight;
+
+REPLACE(PASS_NAME,'M','B')
+ABC
+pass1
+pass2
+pass3
+pass4
+
+
+16)	Display only 3 characters from the 3 rd character with names of Source.
+select substr(source,3,3) from flight;
+
+SUBSTR(SOURCE,3,3)
+mba
+w Y
+mba
+ne
+lhi
+
+
+17)Display the rounded value of fare up to 2 characters.
+select round(fare,2) "Round" from flight;
+ 
+Round
+5000
+10000
+50000
+3000
+9900
+
+
+18)	Display 20 th September 2008 in the date format.
+select to_date('20 September 2008','DD-MON-YYYY')"Date" from dual;
+
+
+Date
+20-SEP-08
+
+
+19)	Display the day truncated up to the year for the DOT in the Flight table.
+
+select trunc(to_date(DOT,'DD-MON-YY'),'yy') from flight;
+
+
+TRUNC(TO_DATE(DOT,'DD-MON-YY'),'YY')
+01-JAN-18
+01-JAN-11
+01-JAN-12
+01-JAN-13
+01-JAN-14
+
+
+20)	Take DOT as input and display the output like  “My travel date is _____”.
+SQL> select 'My travel date is '||dot as "Travel Date" from flight;
+Travel Date
+My travel date is 07-MAY-18
+My travel date is 07-MAY-11
+My travel date is 08-MAY-12
+My travel date is 09-MAY-13
+My travel date is 10-MAY-14
+
+
+VIVA QUESTION : 
+create table with doj after 01-jan-2014 till current date.
+
+drop table latest_employee;
+select * from employee;
+create table latest_employee as select * from employee where doj between '01-jan-2014' and CURRENT_DATE;
+select * from latest_employee;
+
+Table dropped.
+EMP_ID	ENAME	SALARY	AGE	DOJ
+1	Suraj	50000	27	05-APR-12
+2	Bhaviya	70000	29	03-DEC-13
+3	Saijal	90000	30	23-JUN-14
+4	Ronak	35000	42	22-OCT-11
+5	Aniket	60000	52	20-FEB-11
+
+5 rows selected.Table created.
+EMP_ID	ENAME	SALARY	AGE	DOJ
+3	Saijal	90000	30	23-JUN-14
+
+
+

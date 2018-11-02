@@ -1,0 +1,130 @@
+1) Implement implicit cursor for increasing the salary of employees to 15% of the
+basic pay.(Salary is the basic pay) for employees working in Computer and IT
+department. Display the number of affected records
+
+BEGIN
+     update empsal set salary=salary*1.15 where dept='Computer' or dept='IT';
+END;
+
+ID	NAME	SALARY	DEPT	DESIGNATION
+1	Sneha	20000	Accounts	Non-Teaching
+2	Raj	28750	Computer	Teaching
+3	Shweta	40250	IT	Teaching
+4	Seema	51750	Computer	Teaching
+5	Neeta	55000	R&D	Teaching
+3 rows updated.
+
+2) Using Explicit cursor display the employee name and department of all employees
+whose Designation is Teaching.
+
+DECLARE  
+   total_rows number(2);
+   name empsal.name%type; 
+   dept empsal.dept%type;
+   CURSOR teachers IS SELECT name, dept FROM empsal WHERE designation = 'Teaching';
+BEGIN 
+    OPEN teachers;
+    LOOP 
+        FETCH teachers INTO name, dept;
+        EXIT WHEN teachers%NOTFOUND;
+        dbms_output.put_line(name || ', ' || dept);
+    END LOOP;
+    CLOSE teachers;
+END; 
+Raj, Computer
+Shweta, IT
+Seema, Computer
+Neeta, R&D
+3) Implement cursor with for loop which inputs employees name and displays the
+department name for employees belong in to computer Engineering and IT.
+
+SQL> DECLARE
+  2      n varchar(10):='&name';
+  3      emp_rec empsal%rowtype;
+  4      CURSOR emp_cur IS
+  5      select * from empsal where dept='Computer' or dept='IT';
+  6  BEGIN
+  7      open emp_cur;
+  8      LOOP
+  9      	     FETCH emp_cur into emp_rec;
+ 10                   IF emp_rec.name=n then
+ 11                         dbms_output.put_line('Name: '||emp_rec.name);
+ 12		       dbms_output.put_line('Department: '||emp_rec.dept );
+ 13                         EXIT;
+ 14                   ELSE
+ 15                              dbms_output.put_line('Invalid Name');
+ 16                              EXIT;
+ 17                  END IF;
+ 18      END LOOP;
+ 19      CLOSE emp_cur;
+ 20  END;
+ 21  /
+Enter value for name: Raj
+old   2:     n varchar(10):='&name';
+new   2:     n varchar(10):='Raj';
+Name: Raj
+Department: Computer
+
+
+
+4) Write a Procedure which takes the inputs as numbers and operands and perform the
+basic mathematical operations..
+	SQL> CREATE OR REPLACE PROCEDURE operation(a IN NUMBER, b IN NUMBER)
+  2  IS
+  3  BEGIN
+  4      dbms_output.put_line ('Addition: ' || cast(a+b as varchar));
+  5      dbms_output.put_line ('Subtraction: ' || cast(a-b as varchar));
+  6      dbms_output.put_line ('Division: ' || cast(a/b as varchar));
+  7      dbms_output.put_line ('Multiplication: ' || cast(a*b as varchar));
+  8  END;
+  9  /
+
+Procedure created.
+
+SQL> EXEC operation(&a, &b);
+Enter value for a: 3
+Enter value for b: 4
+Addition: 7
+Subtraction: -1
+Division: .75
+Multiplication: 12
+
+5) Procedure to calculate area of a circle.
+
+SQL> CREATE OR REPLACE PROCEDURE area(radius IN NUMBER)
+  2  IS
+  3  BEGIN
+  4      dbms_output.put_line (round(22*radius*radius/7, 4));
+  5  END;
+  6  /
+
+Procedure created.
+
+SQL> EXEC area(&radius);
+Enter value for radius: 3
+28.2857
+
+6) Procedure to display salary, department and designation when the empid is passed
+as input.
+
+SQL> CREATE OR REPLACE PROCEDURE operation(cid IN NUMBER)
+  2  IS
+  3   desig empsal.designation%type;
+  4   sal empsal.salary%type;
+  5   department empsal.dept%type;
+  6  BEGIN
+  7      select salary,dept,designation into sal,department,desig from empsal where id=cid;
+  8      dbms_output.put_line('Salary: ' || sal);
+  9      dbms_output.put_line('Department: ' || department);
+ 10     dbms_output.put_line('Designation: ' || desig);
+ 11  END;
+ 12  /
+
+Procedure created.
+
+SQL> EXEC operation(&cid);
+Enter value for cid: 3
+Salary: 40250
+Department: IT
+Designation: Teaching
+
